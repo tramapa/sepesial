@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day! ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            padding: 2rem;
+            position: relative;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .heart {
+            position: absolute;
+            pointer-events: none;
+            animation: float 6s infinite;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .photo-frame {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1rem;
+            border-radius: 1rem;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .memory-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .interactive-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .love-meter {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .love-meter-fill {
+            width: 0%;
+            height: 100%;
+            background: #ff4b6e;
+            transition: width 1s;
+        }
+
+        button {
+            background: #ff4b6e;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin: 1rem;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #333;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        .love-note {
+            position: fixed;
+            padding: 1rem;
+            background: white;
+            color: #ff4b6e;
+            border-radius: 0.5rem;
+            cursor: move;
+            user-select: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Valentine's Day! ❤️</h1>
+        
+        <div class="message">
+            Every moment with you is a gift I cherish deeply. Your smile brightens my darkest days, and your love makes my heart soar. Will you be my Valentine today and always?
+        </div>
+
+        <div class="photo-gallery">
+            <!-- Replace the src attributes with your actual photo URLs -->
+            <div class="photo-frame" onclick="showModal('You')">
+                <img src="/Valentines/photos/ratu negara.jpg" alt="You">
+                <div class="memory-text">You ❤️</div>
+            </div>
+            <div class="photo-frame" onclick="showModal('Me')">
+                <img src="/Valentines/photos/poto.jpg" alt="Me">
+                <div class="memory-text">Me 😅</div>
+            </div>
+            <div class="photo-frame" onclick="showModal('Us')">
+                <img src="/Valentines/photos/us.jpg" alt="Holiday Party">
+                <div class="memory-text">Us ❤️❤️❤️ </div>
+            </div>
+        </div>
+
+        <div class="interactive-section">
+            <h2>Love Meter</h2>
+            <div class="love-meter">
+                <div class="love-meter-fill"></div>
+            </div>
+            <button onclick="fillLoveMeter()">Show My Love ❤️</button>
+        </div>
+
+        <button onclick="createDraggableNote()">Create Love Note 💌</button>
+        <button onclick="showSpecialMessage()">Click for a special message ❤️</button>
+        
+        <div id="special-message" class="message hidden">
+            You make my heart skip a beat every time I see you. You're the most amazing person I've ever met, and I'm so grateful to have you in my life. I love you! 💕
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="photo-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <img id="modal-image" style="max-width: 100%;" alt="Enlarged photo">
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 300);
+
+        function showSpecialMessage() {
+            const message = document.getElementById('special-message');
+            message.classList.remove('hidden');
+            
+            for(let i = 0; i < 20; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }
+
+        // Love meter functionality
+        function fillLoveMeter() {
+            const fill = document.querySelector('.love-meter-fill');
+            fill.style.width = '0%';
+            setTimeout(() => {
+                fill.style.width = '100%';
+            }, 100);
+        }
+
+        // Modal functionality
+        function showModal(title) {
+            const modal = document.getElementById('photo-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalImage = document.getElementById('modal-image');
+            
+            modalTitle.textContent = title;
+            modalImage.src = "/api/placeholder/800/600";
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('photo-modal').style.display = 'none';
+        }
+
+        // Draggable love notes
+        function createDraggableNote() {
+            const note = document.createElement('div');
+            note.className = 'love-note';
+            note.textContent = '💝 ' + getRandomLoveNote();
+            document.body.appendChild(note);
+
+            // Random position
+            note.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+            note.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+
+            // Make draggable
+            let isDragging = false;
+            let currentX;
+            let currentY;
+            let initialX;
+            let initialY;
+            let xOffset = 0;
+            let yOffset = 0;
+
+            note.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+
+            function dragStart(e) {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+
+                if (e.target === note) {
+                    isDragging = true;
+                }
+            }
+
+            function drag(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    currentX = e.clientX - initialX;
+                    currentY = e.clientY - initialY;
+
+                    xOffset = currentX;
+                    yOffset = currentY;
+
+                    setTranslate(currentX, currentY, note);
+                }
+            }
+
+            function setTranslate(xPos, yPos, el) {
+                el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+            }
+
+            function dragEnd(e) {
+                initialX = currentX;
+                initialY = currentY;
+                isDragging = false;
+            }
+        }
+
+        function getRandomLoveNote() {
+            const notes = [
+                "You're amazing!",
+                "I love your smile",
+                "Kapan Kokop aku?",
+                "Forever yours",
+                "You're my sunshine",
+                "My heart is yours"
+                
+            ];
+            return notes[Math.floor(Math.random() * notes.length)];
+        }
+    </script>
+</body>
+</html>
